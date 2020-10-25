@@ -1,0 +1,10 @@
+blockquote {
+	padding: 0.5em;
+	border: 1px solid #333333;
+}
+.book .link {
+	display: inline;
+}
+.book {
+	font-size: 0.75em;
+}
