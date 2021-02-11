@@ -4,7 +4,7 @@
 	<head>
 		<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/head.php'); ?>
 		<meta http-equiv="Cache-Control" content="no-cache">
-		<title>Лекториум Джейса</title>
+		<title>База знаний группы</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
 		<link rel="stylesheet" type="text/css" href="/_styles/hider.css">
 	</head>
@@ -33,20 +33,11 @@
 					if(xhr.status != 200){
 						console.log(xhr);
 						container.innerHTML = "<h1>Error! Status: "+xhr.status+"<br>"+xhr.statusText+"</h1>";
-						document.title = "Лекториум Джейса: " + name;
+						document.title = name + " - База знаний";
 					} else {
 						container.innerHTML = xhr.responseText;
-						document.title = "Лекториум Джейса: " + $('#container').find('h1').text();
-						$('.header').on("click", function(event){
-							elem = event.currentTarget.parentNode.lastElementChild;
-							if(elem.style.display != "block"){
-								elem.style.display = "block";
-								event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_open.gif')";
-							} else {
-								elem.style.display = "none";
-								event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_shut.gif')";
-							}
-						});
+						document.title = $('#container').find('h1').text() + " - База знаний";
+						resetMenuHandler();
 					}
 				};
 			}
@@ -67,18 +58,8 @@
 							menu.innerHTML = "<h1>Error! Status: "+xhr.status+"<br>"+xhr.statusText+"</h1>";
 						} else {
 							menu.innerHTML = xhr.responseText;
-							$('#count_articles').html("<b>Всего статей: " + $('.link').length + "</b>");
-							$('.header').on("click", function(event){
-								elem = event.currentTarget.parentNode.lastElementChild;
-								if(elem.style.display != "block"){
-									elem.style.display = "block";
-									event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_open.gif')";
-								} else {
-									elem.style.display = "none";
-									event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_shut.gif')";
-								}
-								localStorage.setItem('menu', $('#menu').html());
-							});
+							$('#count_articles').html("<b>Всего статей: " + $('.link > a').length + "</b>");
+							resetMenuHandler();
 						}
 					};
 				}
@@ -114,20 +95,25 @@
 						if (localStorage.getItem('menu') != null) {
 							$('#menu')[0].innerHTML = localStorage.getItem('menu');
 							menu_need_reload = false;
-							$('.header').on("click", function(event){
-								elem = event.currentTarget.parentNode.lastElementChild;
-								if(elem.style.display != "block"){
-									elem.style.display = "block";
-									event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_open.gif')";
-								} else {
-									elem.style.display = "none";
-									event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_shut.gif')";
-								}
-								localStorage.setItem('menu', $('#menu').html());
-							});
+							resetMenuHandler();
 						}
 					}
 				}
+			}
+			
+			function resetMenuHandler(){
+				$('.header').unbind('click');
+				$('.header').on("click", function(event){
+					elem = event.currentTarget.parentNode.lastElementChild;
+					if(elem.style.display != "block"){
+						elem.style.display = "block";
+						event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_open.gif')";
+					} else {
+						elem.style.display = "none";
+						event.currentTarget.style.backgroundImage = "url('/_styles/light_arrow_shut.gif')";
+					}
+					localStorage.setItem('menu', $('#menu').html());
+				});
 			}
 		</script>
 	<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/message.php') ?>

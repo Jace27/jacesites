@@ -8,7 +8,9 @@ if (isset($_POST['nick']) && isset($_POST['pass'])){
 		$_SESSION['message'] = 'Неверное имя пользователя';
 		header('location: /');
 	} else {
-		if ($user_data['pass'] != $_POST['pass']){
+		if (!password_verify($_POST['pass'], $user_data['pass'])){
+		    //var_dump($_POST['pass']);
+		    //var_dump(password_hash($_POST['pass'], PASSWORD_BCRYPT));
 			$_SESSION['message'] = 'Неверный пароль';
 			header('location: /');
 		} else {
@@ -18,7 +20,7 @@ if (isset($_POST['nick']) && isset($_POST['pass'])){
 			add_session($_POST['nick'], hash('sha256', $time), $time);
 			$sessions = get_sessions();
 
-			$_SESSION['message'] = 'Вы успешно вошли в систему';
+			//$_SESSION['message'] = 'Вы успешно вошли в систему';
 			header('location: /');
 		}
 	}

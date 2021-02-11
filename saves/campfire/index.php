@@ -41,26 +41,26 @@
 			img[width=128] { width: 128px; }
 			img.sticker1 { width: 128px; }
 			@media (max-width: 799px){
-			    img.sticker1 { width: 128px; }
-			    img[width=128] { width: 128px; }
-			    img { width: 100% }
-			    img[width=128] { width: 128px; }
-			    img.sticker1 { width: 128px; }
-			    .messages { margin: 0px 20px; }
-			    .from { padding-left: 3px; }
-			    .msg_body { margin-left: 60px; padding-left: 3px; }
-			    .att_head { padding-left: 3px; }
-			    .fwd { padding-left: 3px; margin-left: 50px; }
-			    a[target=_blank] { display: none; }
+				img.sticker1 { width: 128px; }
+				img[width=128] { width: 128px; }
+				img { width: 100% }
+				img[width=128] { width: 128px; }
+				img.sticker1 { width: 128px; }
+				.messages { margin: 0px 20px; }
+				.from { padding-left: 3px; }
+				.msg_body { margin-left: 60px; padding-left: 3px; }
+				.att_head { padding-left: 3px; }
+				.fwd { padding-left: 3px; margin-left: 50px; }
+				a[target=_blank] { display: none; }
 			}
 			@media (min-width: 800px){
-			    img.sticker1 { width: 128px; }
-			    img[width=128] { width: 128px; }
-			    img { max-width: 800px; }
-			    img[width=128] { width: 128px; }
-			    img.sticker1 { width: 128px; }
-			    .fwd { margin-left: 85px; }
-			    .from,.msg_body,.att_head,.attacments,.attacment,.fwd{margin-left:60px;min-height: 1px;padding-right: 15px;padding-left: 15px;}
+				img.sticker1 { width: 128px; }
+				img[width=128] { width: 128px; }
+				img { max-width: 800px; }
+				img[width=128] { width: 128px; }
+				img.sticker1 { width: 128px; }
+				.fwd { margin-left: 85px; }
+				.from,.msg_body,.att_head,.attacments,.attacment,.fwd{margin-left:60px;min-height: 1px;padding-right: 15px;padding-left: 15px;}
 			}
 			img[width=128] { width: 128px; }
 			img.sticker1 { width: 128px; }
@@ -4918,7 +4918,7 @@
 		<div id="msg104368" class="msg_item">
 			<div class="upic"><img src="./work with spaces/b28VrEhDNMs.jpg" alt="[photo_100]"></div>
 			<div class="from"> <b>Денис Абдураманов</b> <a href="http://vk.com/id57804205" target="_blank">@tinyko</a> <a href="#msg104368">2017.11.25 12:53:22</a></div>
-			<div class="msg_body">Я слышал за сорняками голос, говорил он: не переживай........ да рядом же..........      Я подумал что ты это Дарина, и спросил ты или нет</div>
+			<div class="msg_body">Я слышал за сорняками голос, говорил он: не переживай........ да рядом же..........	  Я подумал что ты это Дарина, и спросил ты или нет</div>
 		</div>
 		<div id="msg104369" class="msg_item">
 			<div class="upic"><img src="./work with spaces/TkL-LLPId44.jpg" alt="[photo_100]"></div>
@@ -11704,4 +11704,4 @@
 		</div>
 		</div>
 		</div>
-         </body></html>
+		 </body></html>

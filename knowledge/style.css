@@ -57,6 +57,7 @@ h2, h1 {
 	.page {
 		width: calc(100% - 0px);
 		padding: 5px;
+		font-size: 0.85em;
 	}
 	.p_menu {
 		width: calc(100% - 70px);

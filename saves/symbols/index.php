@@ -7,7 +7,7 @@
 		<!--<link rel="stylesheet" type="text/css" href="http://vk.com/css/al/common.css" />-->
 		<title>Сборка: эксперименты с символами</title>
 		<style>
-		    img{max-width:calc(100% - 60px); min-width:0px;}
+			img{max-width:calc(100% - 60px); min-width:0px;}
 			.emoji,.emoji_css {width: 16px;height: 16px;border: none;vertical-align: -3px;margin: 0 1px;display: inline-block}
 			.emoji2,.emoji_css2 {width: 23px;height: 23px;border: none;vertical-align: -6px;margin: 0 1px;display: inline-block}
 			.emoji_css {background: url(https://vk.com/images/im_emoji.png?9) no-repeat}

@@ -24,7 +24,7 @@
 	src: url(fonts/ubuntu/Ubuntu-BI.ttf);
 }
 body {
-    font-size: 20px;
-    font-family: Ubuntu;
-    margin-bottom: 150px;
+	font-size: 20px;
+	font-family: Ubuntu;
+	margin-bottom: 150px;
 }

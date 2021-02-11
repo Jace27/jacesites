@@ -24,9 +24,9 @@
 	src: url(/_styles/fonts/ubuntu/Ubuntu-BI.ttf);
 }
 body {
-    font-size: 20px;
-    font-family: Ubuntu;
-    margin-bottom: 150px;
+	font-size: 20px;
+	font-family: Ubuntu;
+	margin-bottom: 150px;
 }
 
 #back_button {
@@ -37,4 +37,33 @@ body {
 	background-color: rgba(255,255,255,0.4);
 	border-radius: 5px;
 	z-index: 9999;
+}
+select {
+	display: block;
+	margin: 1em 0;
+}
+input {
+	margin: 0.5em 0;
+}
+.form-control {
+	max-width: calc(100% - 2em);
+	/*display: inline-block;*/
+}
+.input {
+	display: block;
+	float: left;
+}
+.input[required]::after {
+	content: " * ";
+	color: red;
+	display: inline-block;
+}
+.w-half {
+	width: calc(50% - 1em - 5px) !important;
+}
+abbr {
+	text-decoration: none !important;
+}
+.d-none {
+	display: none;
 }

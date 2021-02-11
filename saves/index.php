@@ -7,7 +7,7 @@
 		<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/head.php'); ?>
 	</head>
 	<body link="#009" alink="#009" vlink="#009">
-        <?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
+		<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
 		<div class="container">
 			<a href="symbols/">Исследования символов</a><br>
 			<!--<a href="intrig/">Игра интриганов (Файл PDF (396 КБ))</a><br>-->

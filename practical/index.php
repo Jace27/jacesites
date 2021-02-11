@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="/_styles/hider.css">
 	</head>
 	<body link="#009" alink="#009" vlink="#009">
-        <?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
+		<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
 		<div class="container">
 			<div class="section">
 				<div class="header"><span>Сновиденные</span></div>

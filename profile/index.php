@@ -7,6 +7,7 @@ if ((!isset($_SESSION['nick']) || !isset($_SESSION['session'])) && !isset($_GET[
 }
 require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/functions/sessions.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/functions/users.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/functions/options.php');
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -14,6 +15,69 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/functions/users.php');
 	<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/head.php'); ?>
 	<title>Профиль: <?php echo $_SESSION['nick']; ?></title>
 	<meta http-equiv="Cache-Control" content="no-cache">
+	<style>
+		.tabs {
+			padding-top: 1em;
+		}
+		.tabs_body {
+			border: 1px solid #007bff;
+			padding: 0.3em;
+			margin-top: -1px;
+			margin-left: -1px;
+		}
+		.tabs_body img {
+			max-width: 200px;
+			max-height: 200px;
+		}
+		.tabs_header_page {
+			padding: 0.5em 1em;
+			display: inline-block;
+			border: 1px solid #007bff;
+			margin-top: -1px;
+			margin-left: -1px;
+			cursor: pointer;
+		}
+		@media (min-width: 530px) {
+			.tab_page table {
+				width: 100%;
+			}
+
+			th:nth-child(1), td:nth-child(1) {
+				width: calc(50% - 50px);
+			}
+
+			th:nth-child(2), td:nth-child(2) {
+				width: calc(50% - 50px);
+			}
+
+			th:nth-child(3), td:nth-child(3) {
+				text-align: center;
+				width: 100px;
+			}
+		}
+		@media (max-width: 529px){
+			th:nth-child(1), td:nth-child(1){
+				display: block;
+				float: none;
+				width: 100%;
+			}
+			th:nth-child(2), td:nth-child(2){
+				width: calc(100% - 39px);
+				display: block;
+				float: left;
+			}
+			th:nth-child(3), td:nth-child(3){
+				width: 39px;
+				display: block;
+				float: right;
+				text-align: center;
+				overflow: hidden;
+			}
+		}
+		.form-control {
+			max-width: 100%;
+		}
+	</style>
 </head>
 <body>
 	<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
@@ -21,96 +85,133 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/functions/users.php');
 <?php
 $user = [];
 
-if (!isset($_GET['user'])){
-	$user = get_user_data($_SESSION["nick"]);
+	$nick = ''; $can_edit = false;
+	if (isset($_SESSION['nick'])) $nick = $_SESSION['nick'];
+	if (isset($_GET['user'])) $nick = $_GET['user'];
+	if (isset($_SESSION['nick']) && $_SESSION['nick'] == $nick) $can_edit = true;
+	if ($nick == '') {
+		echo 'Пустой запрос';
+		die;
+	}
+	$user = get_user_data($nick);
 	if ($user == null){
 		echo 'Пользователя не существует';
 		die;
 	}
 ?>
-		<form action="/_actions/users/edit.php" method="post" id="profile_data_form" enctype="multipart/form-data">
-			<label><br><img style="max-width:200px;max-height:200px;" src="/_images/avatars/<?php if (file_exists($_SERVER['DOCUMENT_ROOT'].'/_images/avatars/'.$user['nick'])) echo $user['nick']."?rnd=".time(); else echo 'default?rnd='.time(); ?>"><br><br>
-			<input type="button" value="Изменить аватар" class="btn btn-secondary form-control" id="btn_change_avatar">
-			<input type="file" name="ava" id="profile_data_input_ava" class="form-control" style="display:none;" accept="image/png, image/jpg, image/jpeg"></label><br>
-			<label>Никнейм:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_nick" type="text" name="nick" value="<?php echo $user['nick']; ?>" maxlength="32"></label>
-			<label>Имя:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_name" type="text" name="name" value="<?php echo $user['name']; ?>" maxlength="64"></label><br>
-			<label>Фамилия:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_surname" type="text" name="surname" value="<?php echo $user['surname']; ?>" maxlength="64"></label>
-			<label>Отчество:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_patronymic" type="text" name="patronymic" value="<?php echo $user['patronymic']; ?>" maxlength="64"></label><br>
-			<label>Город:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_city" type="text" name="city" value="<?php echo $user['city']; ?>" maxlength="64"></label>
-			<label>Часовой пояс (к Москве):&nbsp;&nbsp;<input class="form-control" id="profile_data_input_hour" type="text" name="hour" value="<?php echo $user['hour']; ?>" maxlength="3"></label><br>
-			<label>Дата рождения:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_birth" type="text" name="birth" value="<?php echo $user['birth']; ?>" maxlength="10"></label>
-			<label>Новый пароль:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_new_password" type="password" name="new_password"><input class="form-control" id="profile_data_input_new_pass" type="password" name="new_pass" style="display: none;"></label>
-			<hr>
-			<label><b>Для подтверждения изменений введите пароль:</b></label><br>
-			<label>Пароль:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_password" type="password" name="password"><input class="form-control" id="profile_data_input_pass" type="password" name="pass" style="display: none;"></label>
-			<label>Повтор пароля:&nbsp;&nbsp;<input class="form-control" id="profile_data_input_pass_repeat" type="password" name="pass_repeat"></label><br>
-			<input type="button" class="btn btn-primary" value="Отправить изменения" id="profile_data_form_submit">
-		</form>
-		<script type="text/javascript">
-			$('#btn_change_avatar').click(function(){
-				$('#profile_data_input_ava').click();
-			});
-			$('#profile_data_input_ava').change(function(){
-				if (this.files.length > 0){
-					$('#btn_change_avatar').val('Файл выбран');
-				}
-			});
-			$('#profile_data_input_nick').on('change', function(){
-				if ($.trim($('#profile_data_input_nick').val()) != "<?php echo $_SESSION['nick']; ?>"){
-					$.ajax({
-						url: "/_actions/users/check_nick.php?nick="+$.trim($('#profile_data_input_nick').val()),
-						cache: false,
-						data: null,
-						dataType: "text",
-						method: "get",
-						success: function(data, status, jqXHR){
-							console.log(data);
-							if ($.trim(data) == "busy")
-								alert('Никнейм занят!');
+		<form action="/_actions/users/edit.php" method="post" id="profile_data_form" enctype="multipart/form-data" name="user_data">
+			<input type="text" class="d-none" name="nick" value="<?php echo $nick; ?>">
+			<div class="tabs">
+				<?php
+				$pages = get_option_pages();
+				$options = get_options($user['id']);
+				$tabs_headers = '<div class="tab_header">';
+				$tabs_pages = '<div class="tabs_body">';
+				$i = 0;
+				foreach ($pages as $page){
+					if ($i == 0) $tabs_headers = $tabs_headers.'<div class="tabs_header_page" id="header_'.$page['id'].'" style="font-weight: 900">'.$page['title'].'</div>';
+							else $tabs_headers = $tabs_headers.'<div class="tabs_header_page" id="header_'.$page['id'].'" style="font-weight: 500">'.$page['title'].'</div>';
+					$tabs_pages = $tabs_pages.'<div class="tab_page" id="page_'.$page['id'].'"><table><tbody>';
+					if ($can_edit) $tabs_pages = $tabs_pages.'<tr><th></th><th></th><th>Скрывать</th></tr>';
+					if ($page['text_id'] == 'private'){
+						$tabs_pages = $tabs_pages.'<tr>';
+						$tabs_pages = $tabs_pages.'<td>Аватар</td>';
+						if (file_exists($_SERVER['DOCUMENT_ROOT'].'/_images/avatars/'.$user['nick']))
+							$tabs_pages = $tabs_pages.'<td><img id="avatar_img" src="/_images/avatars/'.$user['nick'].'"></td>';
+						else
+							$tabs_pages = $tabs_pages.'<td><img id="avatar_img" src="/_images/avatars/default"></td>';
+						if ($can_edit) $tabs_pages = $tabs_pages.'<input name="avatar_filename" accept="image/jpeg,image/jpg,image/png" class="d-none" type="file">';
+						$tabs_pages = $tabs_pages.'<td></td>';
+						$tabs_pages = $tabs_pages.'</tr>';
+					}
+					foreach ($options as $option){
+						if ($option['page'] == $page['id']) {
+							$value = ''; $hidden = '';
+							$checked = ''; if ($option['hidden'] == '1') $checked = ' checked';
+							if ($can_edit && $option['type'] == 'custom') {
+								$value = '<input name="'.$option['option'].'" class="form-control" '.$option['attrs'].' value="'.$option['value'].'">';
+								$hidden = '<input name="'.$option['option'].'-hidden" type="checkbox"'.$checked.'>';
+							} else {
+								$value = $option['value'];
+								
+								if ($option['hidden'] == '1') {
+									continue;
+								}
+							}
+							if ($value == null || $value == '') $value = 'Не указано';
+							$tabs_pages = $tabs_pages.'<tr>';
+							$tabs_pages = $tabs_pages.'<td>'.$option['title'].'</td>';
+							$tabs_pages = $tabs_pages.'<td>'.$value.'</td>';
+							if ($can_edit || $option['type'] == 'custom') $tabs_pages = $tabs_pages.'<td>'.$hidden.'</td>';
+							$tabs_pages = $tabs_pages.'</tr>';
 						}
-					});
+					}
+					$tabs_pages = $tabs_pages.'</tbody></table></div>';
+					$i++;
 				}
-			});
-			$('#profile_data_form_submit').on('click', function(){
-				if ($.trim($('#profile_data_input_nick').val()) == ""){
-					alert("Вы не ввели никнейм");
-					return;
-				} else
-				if ($.trim($('#profile_data_input_password').val()) == ""){
-					alert("Вы не ввели пароль");
-					return;
-				} else
-				if ($.trim($('#profile_data_input_password').val()) != $.trim($('#profile_data_input_pass_repeat').val())){
-					alert("Пароли не совпадают");
-					return;
-				} else {
-					$('#profile_data_input_pass').val(sha256($.trim($('#profile_data_input_password').val())));
-					if ($.trim($('#profile_data_input_new_password').val()) != "")
-						$('#profile_data_input_new_pass').val(sha256($.trim($('#profile_data_input_new_password').val())));
-					$('#profile_data_form').submit();
+				$tabs_pages = $tabs_pages.'</div>';
+				$tabs_headers = $tabs_headers.'</div>';
+				echo $tabs_headers;
+				echo $tabs_pages;
+				?>
+			</div>
+			<label for="new_pass_raw">
+				Новый пароль:
+				<input type="password" class="form-control" name="new_pass_raw">
+			</label>
+			<label for="new_pass_raw_repeat">
+				Повтор пароля:
+				<input type="password" class="form-control" name="new_pass_raw_repeat">
+			</label>
+			<input type="password" class="form-control d-none" name="new_pass">
+			<input type="submit" class="form-control btn btn-primary" value="Сохранить изменения">
+			<script>
+				let pages = $('.tab_page');
+				if (pages.length > 1){
+					for (let i = 1; i < pages.length; i++) {
+						$(pages[i]).css('display', 'none');
+					}
 				}
-			});
-		</script>
-<?php
-} else {
-	$user = get_user_data($_GET['user']);
-	if ($user == null){
-		echo 'Пользователя не существует';
-		die;
-	} else {
-		?>
-		<label><br><img style="max-width:200px;max-height:200px;" src="/_images/avatars/<?php if (file_exists($_SERVER['DOCUMENT_ROOT'].'/_images/avatars/'.$user['nick'])) echo $user['nick']."?rnd=".time(); else echo 'default?rnd='.time(); ?>"></label><br>
-		<label>Никнейм:&nbsp;&nbsp;<b><?php echo $user['nick']; ?></b></label><br>
-		<label>Имя:&nbsp;&nbsp;<b><?php echo $user['name']; ?></b></label><br>
-		<label>Фамилия:&nbsp;&nbsp;<b><?php echo $user['surname']; ?></b></label><br>
-		<label>Отчество:&nbsp;&nbsp;<b><?php echo $user['patronymic']; ?></b></label><br>
-		<label>Город:&nbsp;&nbsp;<b><?php echo $user['city']; ?></b></label><br>
-		<label>Часовой пояс (к Москве):&nbsp;&nbsp;<b><?php echo $user['hour']; ?></b></label><br>
-		<label>Дата рождения:&nbsp;&nbsp;<b><?php echo $user['birth']; ?></b></label>
-		<?php
-	}
-}
-?>
+				
+				$('.tabs_header_page').click(function(e){
+					for (let i = 0; i < pages.length; i++){
+						if (pages[i].id.substring(5, pages[i].id.length) == e.target.id.substring(7, e.target.id.length)){
+							$(pages[i]).css('display', 'block');
+						} else {
+							$(pages[i]).css('display', 'none');
+						}
+					}
+					let headers = $('.tabs_header_page');
+					for (let i = 0; i < headers.length; i++){
+						if (headers[i].id == e.target.id){
+							headers[i].style.fontWeight = '900';
+						} else {
+							headers[i].style.fontWeight = '500';
+						}
+					}
+				});
+				
+				<?php if ($can_edit) { ?>
+				$('#avatar_img').click(function(e){
+					$('input[type=file][name=avatar_filename]').click();
+				});
+				$('input[type=file][name=avatar_filename]').change(function(e){
+					console.log(e);
+				});
+				<?php } ?>
+				
+				$('form[name=user_data]').submit(function(e){
+					let npr = $('input[name=new_pass_raw]');
+					let nprr = $('input[name=new_pass_raw_repeat]');
+					let np = $('input[name=new_pass]');
+					if (npr.val() == nprr.val()){
+						np.val(sha256(npr.val()));
+					}
+					npr.remove();
+					nprr.remove();
+				});
+			</script>
+		</form>
 	</div>
 	<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/message.php') ?>
 </body>

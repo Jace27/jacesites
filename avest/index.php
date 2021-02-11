@@ -1,4 +1,5 @@
 <?php require_once($_SERVER['DOCUMENT_ROOT'].'/_includes/preload.php'); ?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -6,8 +7,8 @@
 		<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/head.php'); ?>
 		<script src="resources/script.js"></script>
 		<style type="text/css">
-            body { padding-bottom: 30px; }
-			.input {margin-top: 5px}
+			body { padding-bottom: 30px; }
+			.input {margin-top: 5px; float: none;}
 			.planet {display: none; font-size: 20px}
 			#surname {width: 200px}
 			#name {width: 200px}
@@ -16,18 +17,18 @@
 			#monthBirth {width: 42px}
 			#yearBirth {width: 100px}
 			#result {font-size: 30px}
-.iscopied {
-  opacity: 0;
-  margin-left: 15px;
-  display: inline-block;
-  vertical-align: middle;
-  margin-top: inherit;
-}
+			.iscopied {
+				opacity: 0;
+				margin-left: 15px;
+				display: inline-block;
+				vertical-align: middle;
+				margin-top: inherit;
+			}
 		</style>
 	</head>
 	<body link="#009" alink="#009" vlink="#009">
-        <?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/back_button.php'); ?>
-        <div class="container">
+	<?php include($_SERVER['DOCUMENT_ROOT'].'/_includes/header.php'); ?>
+		<div class="container">
 			<form autocomplete="on">
 			<div class="input"><input type="text" id="surname" placeholder="" autofocus> - фамилия</div>
 			<div class="input"><input type="text" id="name" placeholder=""> - имя</div>
